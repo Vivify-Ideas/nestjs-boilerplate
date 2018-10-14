@@ -51,6 +51,12 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Environment Configuration
+
+Integrated Configuration Module so you can just inject `ConfigService`
+and read all environment variables from `.env` file.
+Don't forget to make your own `.env` file!
+
 ## Swagger
 
 RESTful APIs you can describe with already integrated Swagger.
