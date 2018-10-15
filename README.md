@@ -62,6 +62,11 @@ Don't forget to make your own `.env` file!
 RESTful APIs you can describe with already integrated Swagger.
 To see all available endpoints visit http://localhost:3000/api/docs
 
+## Authentication - JWT
+
+Already preconfigured JWT authentication. Just change `AuthService` with right
+validation and you are good to go...
+
 ## License
 
 NestJS Boilerplate is [MIT licensed](LICENSE).
