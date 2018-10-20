@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { ConfigModule } from './../config';
 
 describe('AppController', () => {
   let app: TestingModule;
@@ -9,13 +10,14 @@ describe('AppController', () => {
     app = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
+      imports: [ConfigModule]
     }).compile();
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "http://vivifyideas.com"', () => {
       const appController = app.get<AppController>(AppController);
-      expect(appController.root()).toBe('Hello World!');
+      expect(appController.root()).toBe('http://vivifyideas.com');
     });
   });
 });

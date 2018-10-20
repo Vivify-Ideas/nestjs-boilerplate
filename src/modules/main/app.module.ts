@@ -16,4 +16,4 @@ import { AuthModule } from './../auth';
     AppService
   ],
 })
-export class AppModule {}
+export class AppModule { }
