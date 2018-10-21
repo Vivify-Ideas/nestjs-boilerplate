@@ -62,10 +62,20 @@ Don't forget to make your own `.env` file!
 RESTful APIs you can describe with already integrated Swagger.
 To see all available endpoints visit http://localhost:3000/api/docs
 
+## TypeORM integrated
+
+[TypeORM](http://typeorm.io/) gives you possibility to use next db types:
+`mysql`, `postgres`, `mariadb`, `sqlite`, etc. Please look at docs for more details.
+We have provided working example with `sqlite`, but you have possibility to change
+this through `ormconfig.json`. By default you will get `sqlite-example.sql` file
+created in the root directory, but it's ignored by git.
+
 ## Authentication - JWT
 
-Already preconfigured JWT authentication. Just change `AuthService` with right
-validation and you are good to go...
+Already preconfigured JWT authentication.
+It's suggested to change current password hashing to something more secure.
+You can start use already working implementation of `Login` and `Registration`
+endpoints, just take a look at [http://localhost:3000/api/docs](http://localhost:3000/api/docs).
 
 ## License
 

@@ -25,11 +25,17 @@
     "@nestjs/jwt": "^0.2.0",
     "@nestjs/passport": "^5.1.0",
     "@nestjs/swagger": "^2.5.1",
+    "@nestjs/typeorm": "^5.2.2",
+    "class-transformer": "^0.1.10",
+    "class-validator": "^0.9.1",
+    "crypto": "^1.0.1",
     "dotenv": "^6.1.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
+    "sqlite3": "^4.0.2",
+    "typeorm": "^0.2.8",
     "typescript": "^3.0.1"
   },
   "devDependencies": {

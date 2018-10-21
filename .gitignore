@@ -22,3 +22,5 @@ yarn-error.log
 /coverage
 /.nyc_output
 build/config\.gypi
+
+sqlite-example.sql
