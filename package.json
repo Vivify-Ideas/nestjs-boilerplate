@@ -44,7 +44,7 @@
     "@types/jest": "^23.3.1",
     "@types/node": "^10.7.1",
     "@types/supertest": "^2.0.5",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "nodemon": "^1.18.3",
     "prettier": "^1.14.2",
     "rimraf": "^2.6.2",
