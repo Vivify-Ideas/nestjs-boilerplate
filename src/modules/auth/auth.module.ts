@@ -14,23 +14,23 @@ import { AuthController } from './auth.controller';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [
-        ConfigModule
+        ConfigModule,
       ],
       useFactory: async (configService: ConfigService) => {
         return {
           secretOrPrivateKey: configService.get('JWT_SECRET_KEY'),
           signOptions: {
-            expiresIn: parseInt(configService.get('JWT_EXPIRATION_TIME')),
-          }
-        }
+            expiresIn: Number(configService.get('JWT_EXPIRATION_TIME')),
+          },
+        };
       },
       inject: [
-        ConfigService
-      ]
-    })
+        ConfigService,
+      ],
+    }),
   ],
   controllers: [
-    AuthController
+    AuthController,
   ],
   providers: [
     AuthService,
@@ -38,6 +38,6 @@ import { AuthController } from './auth.controller';
   ],
   exports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
-  ]
+  ],
 })
 export class AuthModule { }

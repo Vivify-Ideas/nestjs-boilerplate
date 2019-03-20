@@ -6,7 +6,7 @@ import {
   SWAGGER_API_DESCRIPTION,
   SWAGGER_API_CURRENT_VERSION,
   SWAGGER_API_AUTH_NAME,
-  SWAGGER_API_AUTH_LOCATION
+  SWAGGER_API_AUTH_LOCATION,
 } from './constants';
 
 export const setupSwagger = (app: INestApplication) => {
@@ -18,4 +18,4 @@ export const setupSwagger = (app: INestApplication) => {
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup(SWAGGER_API_ROOT, app, document);
-}
+};

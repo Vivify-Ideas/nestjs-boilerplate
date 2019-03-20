@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { ValueTransformer } from "typeorm";
+import { ValueTransformer } from 'typeorm';
 
 export class PasswordTransformer implements ValueTransformer {
   to(value) {

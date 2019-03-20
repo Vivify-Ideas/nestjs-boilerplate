@@ -8,7 +8,7 @@ import { UsersService } from './../user';
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UsersService
+    private readonly userService: UsersService,
   ) { }
 
   @Post('login')
@@ -16,7 +16,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() payload: LoginPayload): Promise<any> {
-    let user = await this.authService.validateUser(payload);
+    const user = await this.authService.validateUser(payload);
     return await this.authService.createToken(user);
   }
 
@@ -25,7 +25,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async register(@Body() payload: RegisterPayload): Promise<any> {
-    let user = await this.userService.create(payload);
+    const user = await this.userService.create(payload);
     return await this.authService.createToken(user);
   }
 }

@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
 
 @Entity({
-  name: 'users'
+  name: 'users',
 })
 export class User {
   @PrimaryGeneratedColumn()
@@ -21,10 +21,10 @@ export class User {
   @Column({
     name: 'password',
     length: 255,
-    transformer: new PasswordTransformer
+    transformer: new PasswordTransformer(),
   })
   @Exclude()
-  password: string
+  password: string;
 }
 
 export class UserFillableFields {
@@ -32,4 +32,4 @@ export class UserFillableFields {
   firstName: string;
   lastName: string;
   password: string;
-};
+}

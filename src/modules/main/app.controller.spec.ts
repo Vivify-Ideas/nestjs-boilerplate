@@ -10,7 +10,7 @@ describe('AppController', () => {
     app = await Test.createTestingModule({
       controllers: [AppController],
       providers: [AppService],
-      imports: [ConfigModule]
+      imports: [ConfigModule],
     }).compile();
   });
 

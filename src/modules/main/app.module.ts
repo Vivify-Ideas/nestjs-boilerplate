@@ -12,10 +12,10 @@ import { AuthModule } from './../auth';
     AuthModule,
   ],
   controllers: [
-    AppController
+    AppController,
   ],
   providers: [
-    AppService
+    AppService,
   ],
 })
 export class AppModule { }
