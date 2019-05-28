@@ -1,0 +1,14 @@
+FROM node:lts-alpine as builder
+
+WORKDIR /app
+
+COPY package*.json /app/
+RUN set -x && npm install
+COPY . /app
+COPY ormconfig.json /app/dist
+RUN set -x && npm run prestart:prod
+
+EXPOSE 3000
+
+CMD [ "npm", "run", "start:prod" ]
+

@@ -1,8 +1,11 @@
 {
-    "type": "sqlite",
-    "database": "./sqlite-example.sql",
-    "entities": [
-        "src/**/**.entity{.ts,.js}"
-    ],
+    "type": "mariadb",
+    "host": "db",
+    "port": 3306,
+    "username": "nest",
+    "password": "nest",
+    "database": "nest",
+    "entities": ["src/modules/**/*.entity{.ts,.js}"],
     "synchronize": true
 }
+
