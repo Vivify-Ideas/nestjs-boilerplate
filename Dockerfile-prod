@@ -2,13 +2,14 @@ FROM node:lts-alpine as builder
 
 WORKDIR /app
 
+ENV NODE_ENV production
 COPY package*.json /app/
-RUN set -x && npm install
+RUN set -x && yarn
+
 COPY . /app
-COPY ormconfig.json /app/dist
-RUN set -x && npm run prestart:prod
+RUN set -x && yarn run prestart:prod
 
 EXPOSE 3000
 
-CMD [ "npm", "run", "start:prod" ]
+CMD [ "node", "dist/main.js" ]
 
