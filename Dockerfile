@@ -3,11 +3,10 @@ FROM node:lts-alpine
 WORKDIR /app
 
 ENV NODE_ENV development
-COPY package*.json ./
+COPY package.json yarn.lock ./
 RUN yarn
 
 COPY . .
 
 EXPOSE 3000
-CMD [ "yarn", "run", "start:dev" ]
-
+CMD [ "yarn", "start:dev" ]

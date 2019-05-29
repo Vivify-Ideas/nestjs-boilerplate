@@ -36,6 +36,7 @@
     "passport-jwt": "^4.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.4.0",
+    "swagger-ui-express": "^4.0.5",
     "typeorm": "^0.2.15",
     "typescript": "^3.0.1"
   },
