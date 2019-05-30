@@ -35,6 +35,8 @@ $ npm run webpack
 $ npm run start:hmr
 
 # production mode
+# check ormconfig.json and entities section
+# (should point to dist directory "dist/**/**.entity{.ts,.js}")
 $ npm run start:prod
 ```
 
