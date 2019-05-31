@@ -15,68 +15,53 @@
 
 [NestJS](https://github.com/nestjs/nest) Boilerplate made with ❤️ by [💡VivifyIdeas💡](https://www.vivifyideas.com).
 
-## Installation
+## Description
 
+## setup and running the app
+
+Just run the `init` script:
 ```bash
-$ yarn
+$ ./init
 ```
+It will setup the project for you (building the Docker images, starting docker-compose stack, running typerom schema:sync).
+The NestJs app running in dev mode will be exposed on `http://localhost:80`.
 
-## Running the app
+For IDE autocompletion to work, run `yarn` on the host machine.
 
-```bash
-# development
-$ yarn start
-
-# watch mode
-$ yarn start:dev
-
-# incremental rebuild (webpack)
-$ yarn webpack
-$ yarn start:hmr
-
-# production mode
-$ yarn start:prod
-```
 
 ## Test
 
 ```bash
 # unit tests
-$ yarn test
+$ docker exec -it nest yarn test
 
 # e2e tests
-$ yarn test:e2e
+$ docker exec -it nest yarn test:e2e
 
 # test coverage
-$ yarn test:cov
+$ docker exec -it nest yarn test:cov
 ```
 
 ## Environment Configuration
 
 Integrated Configuration Module so you can just inject `ConfigService`
-and read all environment variables from `.env` file.
-Don't forget to make your own `.env` file!
+and read all environment variables from `.env` file, which is created automatically by the init script from `.env.example`.
 
 ## Swagger
 
 RESTful APIs you can describe with already integrated Swagger.
-To see all available endpoints visit http://localhost:3000/api/docs
+To see all available endpoints visit http://localhost:80/api/docs
 
 ## TypeORM integrated
 
 [TypeORM](http://typeorm.io/) gives you possibility to use next db types:
 `mysql`, `postgres`, `mariadb`, `sqlite`, etc. Please look at docs for more details.
-We have provided working example with `sqlite`, but you have possibility to change
-this through `ormconfig.json`. By default you will get `sqlite-example.sql` file
-created in the root directory, but it's ignored by git.
+The `docker-compose` template uses `mariadb`, which is setup in `ormconfig.js`.
 
 ## Authentication - JWT
 
 Already preconfigured JWT authentication.
 It's suggested to change current password hashing to something more secure.
 You can start use already working implementation of `Login` and `Registration`
-endpoints, just take a look at [http://localhost:3000/api/docs](http://localhost:3000/api/docs).
+endpoints, just take a look at [http://localhost:80/api/docs](http://localhost:80/api/docs).
 
-## License
-
-NestJS Boilerplate is [MIT licensed](LICENSE).
