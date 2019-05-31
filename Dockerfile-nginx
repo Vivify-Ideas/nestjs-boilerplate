@@ -9,4 +9,3 @@ RUN set -ex && \
 COPY ./docker/vhost.template /etc/nginx/conf.d/vhost.template
 
 CMD ["/entrypoint-nginx.sh"]
-

@@ -17,7 +17,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "webpack": "webpack --config webpack.config.js"
+    "webpack": "webpack --config webpack.config.js",
+    "ts-typeorm": "ts-node ./node_modules/typeorm/cli.js"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.1",

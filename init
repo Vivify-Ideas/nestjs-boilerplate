@@ -39,3 +39,9 @@ docker-compose up -d
 if [ $? -ne 0 ]; then
     err "Error while starting docker-compose stack."
 fi
+
+log "Running schema:sync..."
+docker exec -it nest yarn ts-typeorm schema:sync
+if [ $? -ne 0 ]; then
+    err "Error while running schema:sync"
+fi
