@@ -8,7 +8,6 @@ services:
     volumes:
       - ./src:/app/src
       - .env:/app/.env
-      - ./ormconfig.json:/app/ormconfig.json
 
   nginx:
     build:

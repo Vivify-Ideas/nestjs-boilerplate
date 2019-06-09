@@ -6,6 +6,6 @@ export class AppService {
   constructor(private config: ConfigService) {}
 
   root(): string {
-    return this.config.get('API_URL');
+    return this.config.get('APP_URL');
   }
 }
