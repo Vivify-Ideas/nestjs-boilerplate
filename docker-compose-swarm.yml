@@ -1,0 +1,46 @@
+version: "3"
+services:
+  nest:
+    image: nest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - .env:/app/.env
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    depends_on:
+      - nest
+    environment:
+      - NGINX_SERVER_NAME=_
+      - NEST_HOST=nest
+      - NEST_PORT=3000
+      - NGINX_MAX_BODY=100M
+    ports:
+      - 80:80
+
+  db:
+    image: mariadb:10
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_DATABASE: nest
+      MYSQL_USER: nest
+      MYSQL_PASSWORD: nest
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mariadbdata:/var/lib/mysql
+
+volumes:
+  mariadbdata:
+

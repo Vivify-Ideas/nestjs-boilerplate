@@ -15,70 +15,58 @@
 
 [NestJS](https://github.com/nestjs/nest) Boilerplate made with ❤️ by [💡VivifyIdeas💡](https://www.vivifyideas.com).
 
-## Installation
+## Start Guide
 
+### Outside Docker containers
+
+- Create .env file `cp .env.example .env` and replace existing env variables
+  (mysql/mariadb connection params)
+- Install dependencies `yarn`
+- Start the app `yarn start` (app will be exposed through the port 3000)
+
+### Inside Docker containers
+
+Just run already prepared bash script:
 ```bash
-$ npm install
+$ ./init
 ```
+It will setup the project for you (building the Docker images, starting docker-compose stack).
+The NestJS app running in dev mode will be exposed on `http://localhost` (port 80)
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# incremental rebuild (webpack)
-$ npm run webpack
-$ npm run start:hmr
-
-# production mode
-# check ormconfig.json and entities section
-# (should point to dist directory "dist/**/**.entity{.ts,.js}")
-$ npm run start:prod
-```
+For IDE autocompletion to work, run `yarn` on the host machine.
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ docker exec -it nest yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ docker exec -it nest yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ docker exec -it nest yarn test:cov
 ```
 
 ## Environment Configuration
 
 Integrated Configuration Module so you can just inject `ConfigService`
-and read all environment variables from `.env` file.
-Don't forget to make your own `.env` file!
+and read all environment variables from `.env` file, which is created automatically by the init script from `.env.example`.
 
 ## Swagger
 
 RESTful APIs you can describe with already integrated Swagger.
-To see all available endpoints visit http://localhost:3000/api/docs
+To see all available endpoints visit http://localhost/api/docs
 
 ## TypeORM integrated
 
 [TypeORM](http://typeorm.io/) gives you possibility to use next db types:
 `mysql`, `postgres`, `mariadb`, `sqlite`, etc. Please look at docs for more details.
-We have provided working example with `sqlite`, but you have possibility to change
-this through `ormconfig.json`. By default you will get `sqlite-example.sql` file
-created in the root directory, but it's ignored by git.
+The `docker-compose` template uses `mariadb`.
 
 ## Authentication - JWT
 
 Already preconfigured JWT authentication.
 It's suggested to change current password hashing to something more secure.
 You can start use already working implementation of `Login` and `Registration`
-endpoints, just take a look at [http://localhost:3000/api/docs](http://localhost:3000/api/docs).
-
-## License
-
-NestJS Boilerplate is [MIT licensed](LICENSE).
+endpoints, just take a look at [http://localhost/api/docs](http://localhost/api/docs).

@@ -1,0 +1,41 @@
+version: "2"
+services:
+  nest:
+    build: .
+    container_name: nest
+    depends_on:
+      - db
+    volumes:
+      - ./src:/app/src
+      - .env:/app/.env
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    container_name: nest-nginx
+    depends_on:
+      - nest
+    environment:
+      - NGINX_SERVER_NAME=localhost
+      - NEST_HOST=nest
+      - NEST_PORT=3000
+      - NGINX_MAX_BODY=100M
+    ports:
+      - 80:80
+
+  db:
+    image: mariadb:10
+    container_name: nest-db
+    environment:
+      MYSQL_DATABASE: nest
+      MYSQL_USER: nest
+      MYSQL_PASSWORD: nest
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 3306:3306
+    volumes:
+      - mariadbdata:/var/lib/mysql
+
+volumes:
+  mariadbdata:

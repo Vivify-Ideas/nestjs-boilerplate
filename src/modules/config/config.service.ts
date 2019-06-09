@@ -11,4 +11,8 @@ export class ConfigService {
   get(key: string): string {
     return this.envConfig[key];
   }
+
+  isEnv(env: string) {
+    return this.envConfig.APP_ENV === env;
+  }
 }
