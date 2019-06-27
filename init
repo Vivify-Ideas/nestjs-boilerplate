@@ -5,7 +5,6 @@
 # This script is following Google Shell Style standard
 # https://google.github.io/styleguide/shell.xml
 
-echo "sintiernt"
 # STDERR log function
 err() {
   echo -e "\n[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@\n" >&2
