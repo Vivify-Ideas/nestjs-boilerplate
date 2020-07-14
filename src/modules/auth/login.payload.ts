@@ -1,13 +1,13 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 
 export class LoginPayload {
-  @ApiModelProperty({
+  @ApiProperty({
     required: true,
   })
   @IsEmail()
   email: string;
-  @ApiModelProperty({
+  @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
