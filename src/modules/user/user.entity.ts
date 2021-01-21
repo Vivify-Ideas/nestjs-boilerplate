@@ -1,5 +1,10 @@
-import { Exclude } from 'class-transformer';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { PasswordTransformer } from './password.transformer';
 
 @Entity({
@@ -23,8 +28,12 @@ export class User {
     length: 255,
     transformer: new PasswordTransformer(),
   })
-  @Exclude()
   password: string;
+
+  toJSON() {
+    const { password, ...self } = this;
+    return self;
+  }
 }
 
 export class UserFillableFields {
