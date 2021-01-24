@@ -38,3 +38,9 @@ docker-compose up -d
 if [ $? -ne 0 ]; then
     err "Error while starting docker-compose stack."
 fi
+
+log "Run migrations: yarn migration:run"
+docker exec -it nest yarn migration:run
+if [ $? -ne 0 ]; then
+    err "Migrations failed."
+fi
