@@ -1,11 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from 'modules/config';
-import { AuthModule } from 'modules/auth';
-import { CommonModule } from 'modules/common';
+import { ExistsValidator } from './validator/exists.validator';
+import { UniqueValidator } from './validator/unique.validator';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -25,10 +24,7 @@ import { CommonModule } from 'modules/common';
       },
     }),
     ConfigModule,
-    AuthModule,
-    CommonModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [UniqueValidator, ExistsValidator],
 })
-export class AppModule {}
+export class CommonModule {}
