@@ -12,7 +12,7 @@ import {
 @Injectable()
 @ValidatorConstraint({ name: 'exists', async: true })
 export class ExistsValidator implements ValidatorConstraintInterface {
-  constructor(@InjectConnection() protected readonly connection: Connection) {}
+  constructor(@InjectConnection() private readonly connection: Connection) {}
 
   public async validate<E>(value: string, args: ExistsValidationArguments<E>) {
     const [EntityClass, findCondition = args.property] = args.constraints;

@@ -12,7 +12,7 @@ import {
 @Injectable()
 @ValidatorConstraint({ name: 'unique', async: true })
 export class UniqueValidator implements ValidatorConstraintInterface {
-  constructor(@InjectConnection() protected readonly connection: Connection) {}
+  constructor(@InjectConnection() private readonly connection: Connection) {}
 
   public async validate<E>(value: string, args: UniqueValidationArguments<E>) {
     const [EntityClass, findCondition = args.property] = args.constraints;
