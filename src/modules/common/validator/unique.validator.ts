@@ -31,7 +31,7 @@ export class UniqueValidator implements ValidatorConstraintInterface {
   defaultMessage(args: ValidationArguments) {
     const [EntityClass] = args.constraints;
     const entity = EntityClass.name || 'Entity';
-    return `${entity} with the same ${args.property} already exist`;
+    return `${entity} with the same ${args.property} already exists`;
   }
 }
 
