@@ -17,7 +17,7 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js",
-    "ts-typeorm": "ts-node ./node_modules/typeorm/cli.js",
+    "ts-typeorm": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm",
     "migration:create": "typeorm migration:create -d src/migrations",
     "migration:run": "yarn ts-typeorm migration:run",
     "migration:revert": "yarn ts-typeorm migration:revert"
