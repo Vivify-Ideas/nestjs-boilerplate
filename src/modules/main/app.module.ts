@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from './../config';
-import { AuthModule } from './../auth';
+import { ConfigModule, ConfigService } from 'modules/config';
+import { AuthModule } from 'modules/auth';
+import { CommonModule } from 'modules/common';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AuthModule } from './../auth';
     }),
     ConfigModule,
     AuthModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],
