@@ -1,39 +1,22 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { PasswordTransformer } from './password.transformer';
-
-@Entity({
-  name: 'users',
-})
 export class User {
-  @PrimaryGeneratedColumn()
   id: number;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  password?: string;
 
-  @Column({ length: 255 })
-  firstName: string;
+  static defaultSelect = {
+    id: true,
+    firstName: true,
+    lastName: true,
+    email: true,
+    password: false,
+  };
 
-  @Column({ length: 255 })
-  lastName: string;
-
-  @Column({ length: 255 })
-  email: string;
-
-  @Column({
-    name: 'password',
-    length: 255,
-    transformer: new PasswordTransformer(),
-  })
-  password: string;
-
-  toJSON() {
-    const { password, ...self } = this;
-    return self;
-  }
+  static selectWithPassword = {
+    ...User.defaultSelect,
+    password: true,
+  };
 }
 
 export class UserFillableFields {

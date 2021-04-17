@@ -1,4 +1,5 @@
-version: "2"
+version: "3"
+
 services:
   nest:
     build: .
@@ -7,7 +8,11 @@ services:
       - db
     volumes:
       - ./src:/app/src
+      - ./prisma:/app/prisma
       - .env:/app/.env
+    ports:
+      - 5555:5555
+      - 3000:3000
 
   nginx:
     build:
@@ -25,17 +30,16 @@ services:
       - 80:80
 
   db:
-    image: mariadb:10
+    image: postgres:13.2-alpine
     container_name: nest-db
     environment:
-      MYSQL_DATABASE: nest
-      MYSQL_USER: nest
-      MYSQL_PASSWORD: nest
-      MYSQL_ROOT_PASSWORD: root
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - 3306:3306
+      - ${DB_PORT}:${DB_PORT}
     volumes:
-      - mariadbdata:/var/lib/mysql
+      - nest_db:/var/lib/postgresql/data
 
 volumes:
-  mariadbdata:
+  nest_db:

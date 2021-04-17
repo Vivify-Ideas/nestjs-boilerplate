@@ -22,10 +22,11 @@ export class AuthService {
   }
 
   async validateUser(payload: LoginPayload): Promise<any> {
-    const user = await this.userService.getByEmail(payload.email);
+    const user = await this.userService.getByEmail(payload.email, true);
     if (!user || !Hash.compare(payload.password, user.password)) {
       throw new UnauthorizedException('Invalid credentials!');
     }
+    delete user.password;
     return user;
   }
 }

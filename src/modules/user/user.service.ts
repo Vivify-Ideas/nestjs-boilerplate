@@ -1,26 +1,25 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { PrismaService } from 'modules/common/prisma.service';
 
 import { User, UserFillableFields } from './user.entity';
+import { Hash } from '../../utils/Hash';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async get(id: number) {
-    return this.userRepository.findOne(id);
+  async get(id: number, includePass = false) {
+    return await this.prisma.user.findFirst({
+      where: { id },
+      select: includePass ? User.selectWithPassword : User.defaultSelect,
+    });
   }
 
-  async getByEmail(email: string) {
-    return await this.userRepository
-      .createQueryBuilder('users')
-      .where('users.email = :email')
-      .setParameter('email', email)
-      .getOne();
+  async getByEmail(email: string, includePass = false) {
+    return await this.prisma.user.findFirst({
+      where: { email },
+      select: includePass ? User.selectWithPassword : User.defaultSelect,
+    });
   }
 
   async create(payload: UserFillableFields) {
@@ -32,6 +31,14 @@ export class UsersService {
       );
     }
 
-    return await this.userRepository.save(this.userRepository.create(payload));
+    return (await this.prisma.user.create({
+      data: {
+        email: payload.email,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        password: Hash.make(payload.password),
+      },
+      select: User.defaultSelect,
+    })) as User;
   }
 }
