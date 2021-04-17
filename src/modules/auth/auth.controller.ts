@@ -9,7 +9,7 @@ import {
 import { ApiResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService, LoginPayload, RegisterPayload } from './';
-import { UsersService } from './../user';
+import { User, UsersService } from './../user';
 
 @Controller('api/auth')
 @ApiTags('authentication')
@@ -33,7 +33,7 @@ export class AuthController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async register(@Body() payload: RegisterPayload): Promise<any> {
-    const user = await this.userService.create(payload);
+    const user = (await this.userService.create(payload));
     return await this.authService.createToken(user);
   }
 

@@ -1,15 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Prisma } from '@prisma/client';
 import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
 import { Unique } from 'modules/common';
 import { SameAs } from 'modules/common/validator/same-as.validator';
-import { User } from 'modules/user';
 
 export class RegisterPayload {
   @ApiProperty({
     required: true,
   })
   @IsEmail()
-  @Unique([User])
+  @Unique([Prisma.ModelName.User])
   email: string;
 
   @ApiProperty({

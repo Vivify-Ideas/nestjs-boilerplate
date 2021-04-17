@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
-import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm';
 import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -8,22 +6,22 @@ import {
   ValidationOptions,
   registerDecorator,
 } from 'class-validator';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 @ValidatorConstraint({ name: 'exists', async: true })
 export class ExistsValidator implements ValidatorConstraintInterface {
-  constructor(@InjectConnection() private readonly connection: Connection) {}
+  constructor(private prisma: PrismaService) {}
 
   public async validate<E>(value: string, args: ExistsValidationArguments<E>) {
-    const [EntityClass, findCondition = args.property] = args.constraints;
+    const [entity, findCondition = args.property] = args.constraints;
+    const fieldName = (findCondition || args.property) as string;
+    const modelName = (entity as string).toLowerCase();
     return (
-      (await this.connection.getRepository(EntityClass).count({
-        where:
-          typeof findCondition === 'function'
-            ? findCondition(args)
-            : {
-                [findCondition || args.property]: value,
-              },
+      (await this.prisma[modelName].count({
+        where: {
+          [fieldName]: value,
+        },
       })) > 0
     );
   }
@@ -35,10 +33,7 @@ export class ExistsValidator implements ValidatorConstraintInterface {
   }
 }
 
-type ExistsValidationConstraints<E> = [
-  ObjectType<E> | EntitySchema<E> | string,
-  ((validationArguments: ValidationArguments) => FindConditions<E>) | keyof E,
-];
+type ExistsValidationConstraints<E> = [string, keyof E];
 interface ExistsValidationArguments<E> extends ValidationArguments {
   constraints: ExistsValidationConstraints<E>;
 }
