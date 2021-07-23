@@ -12,15 +12,11 @@ export class UsersService {
   ) {}
 
   async get(id: number) {
-    return this.userRepository.findOne(id);
+    return this.userRepository.findOne({ id });
   }
 
   async getByEmail(email: string) {
-    return await this.userRepository
-      .createQueryBuilder('users')
-      .where('users.email = :email')
-      .setParameter('email', email)
-      .getOne();
+    return await this.userRepository.findOne({ email });
   }
 
   async create(payload: UserFillableFields) {
@@ -32,6 +28,6 @@ export class UsersService {
       );
     }
 
-    return await this.userRepository.save(this.userRepository.create(payload));
+    return await this.userRepository.save(payload);
   }
 }
