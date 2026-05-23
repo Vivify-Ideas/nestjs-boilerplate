@@ -1,4 +1,3 @@
-version: "2"
 services:
   nest:
     build: .
@@ -7,6 +6,8 @@ services:
       - db
     volumes:
       - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./yarn.lock:/app/yarn.lock
       - .env:/app/.env
 
   nginx:
@@ -22,7 +23,7 @@ services:
       - NEST_PORT=3000
       - NGINX_MAX_BODY=100M
     ports:
-      - 80:80
+      - 8080:80
 
   db:
     image: mariadb:10

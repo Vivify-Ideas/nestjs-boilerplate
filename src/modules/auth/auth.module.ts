@@ -31,6 +31,6 @@ import { AuthController } from './auth.controller';
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
-  exports: [PassportModule.register({ defaultStrategy: 'jwt' })],
+  exports: [PassportModule],
 })
 export class AuthModule {}

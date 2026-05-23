@@ -6,11 +6,11 @@ export class LoginPayload {
     required: true,
   })
   @IsEmail()
-  email: string;
+  email!: string;
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
   @MinLength(5)
-  password: string;
+  password!: string;
 }

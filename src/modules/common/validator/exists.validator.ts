@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/typeorm';
-import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource, EntitySchema, FindOptionsWhere, ObjectType } from 'typeorm';
 import {
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -12,18 +12,18 @@ import {
 @Injectable()
 @ValidatorConstraint({ name: 'exists', async: true })
 export class ExistsValidator implements ValidatorConstraintInterface {
-  constructor(@InjectConnection() private readonly connection: Connection) {}
+  constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
 
   public async validate<E>(value: string, args: ExistsValidationArguments<E>) {
     const [EntityClass, findCondition = args.property] = args.constraints;
     return (
-      (await this.connection.getRepository(EntityClass).count({
+      (await this.dataSource.getRepository(EntityClass).count({
         where:
           typeof findCondition === 'function'
             ? findCondition(args)
             : {
                 [findCondition || args.property]: value,
-              },
+              } as FindOptionsWhere<E>,
       })) > 0
     );
   }
@@ -37,7 +37,7 @@ export class ExistsValidator implements ValidatorConstraintInterface {
 
 type ExistsValidationConstraints<E> = [
   ObjectType<E> | EntitySchema<E> | string,
-  ((validationArguments: ValidationArguments) => FindConditions<E>) | keyof E,
+  ((validationArguments: ValidationArguments) => FindOptionsWhere<E>) | keyof E,
 ];
 interface ExistsValidationArguments<E> extends ValidationArguments {
   constraints: ExistsValidationConstraints<E>;

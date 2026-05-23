@@ -1,46 +1,72 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Initialize NestJS project for first usage.
-#
-# This script is following Google Shell Style standard
-# https://google.github.io/styleguide/shell.xml
 
-# STDERR log function
+set -euo pipefail
+
 err() {
-  echo -e "\n[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@\n" >&2
+  printf '\n[%s]: %s\n\n' "$(date +'%Y-%m-%dT%H:%M:%S%z')" "$*" >&2
   exit 1
 }
 
-# STDOUT log function
 log() {
-  echo -e "\n[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@\n"
+  printf '\n[%s]: %s\n\n' "$(date +'%Y-%m-%dT%H:%M:%S%z')" "$*"
 }
 
-# Check if Docker is installed
-if ! type "docker" > /dev/null 2>&1; then
-    err "Docker not installed"
+if ! command -v docker >/dev/null 2>&1; then
+  err "Docker is not installed."
 fi
 
-# Check if Docker-compose is installed
-if ! type "docker-compose" > /dev/null 2>&1; then
-    err "Docker-Compose not installed"
-fi
-log "Looks like both docker and docker-compose are installed, everything looks good."
-
-log "Copying .env.example -> .env"
-cp .env.example .env
-if [ $? -ne 0 ]; then
-    err "Error while copying .env"
+if docker compose version >/dev/null 2>&1; then
+  COMPOSE=(docker compose)
+elif command -v docker-compose >/dev/null 2>&1; then
+  COMPOSE=(docker-compose)
+else
+  err "Docker Compose is not installed."
 fi
 
-log "Starting docker-compose stack if not already started.."
-docker-compose up -d
-if [ $? -ne 0 ]; then
-    err "Error while starting docker-compose stack."
+if [ ! -f .env ]; then
+  log "Copying .env.example -> .env"
+  cp .env.example .env
+else
+  log ".env already exists, leaving it unchanged."
 fi
 
-log "Run migrations: yarn migration:run"
-docker exec -it nest yarn migration:run
-if [ $? -ne 0 ]; then
-    err "Migrations failed."
+log "Generating JWT_SECRET_KEY if not set."
+if grep -q "^JWT_SECRET_KEY=" .env; then
+  JWT_SECRET=$(grep "^JWT_SECRET_KEY=" .env | cut -d'=' -f2)
+  if [ -z "$JWT_SECRET" ] || [ "$JWT_SECRET" = "changeme" ]; then
+    log "JWT_SECRET_KEY is empty or default, generating a new one."
+    NEW_SECRET=$(openssl rand -base64 32)
+    sed -i.bak "s|^JWT_SECRET_KEY=.*|JWT_SECRET_KEY=$NEW_SECRET|" .env
+    rm -f .env.bak
+    log "JWT_SECRET_KEY generated and added to .env"
+  fi
+else
+  log "JWT_SECRET_KEY not found in .env, generating one."
+  NEW_SECRET=$(openssl rand -base64 32)
+  printf "\nJWT_SECRET_KEY=%s\n" "$NEW_SECRET" >> .env
+  log "JWT_SECRET_KEY generated and added to .env"
 fi
+
+log "Building and starting Docker Compose stack."
+"${COMPOSE[@]}" up -d --build
+
+log "Waiting for database to accept connections."
+for attempt in {1..30}; do
+  if docker exec nest-db mariadb-admin ping -h 127.0.0.1 -u root -proot --silent >/dev/null 2>&1; then
+    log "Database is ready."
+    break
+  fi
+
+  if [ "$attempt" -eq 30 ]; then
+    err "Database did not become ready in time. Check logs with: docker logs nest-db"
+  fi
+
+  sleep 2
+done
+
+log "Running migrations."
+docker exec nest yarn migration:run
+
+log "Project initialized successfully."
