@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:stable-alpine
 
 COPY ./docker/entrypoint-nginx.sh /
 

@@ -1,16 +1,26 @@
-FROM node:lts-alpine
+FROM node:24-alpine AS build
 
 WORKDIR /app
 
-ENV NODE_ENV production
-COPY package.json yarn.lock ./
+ENV NODE_ENV=development
 
-# install dev dependencies too
-RUN set -x && yarn --prod=true
+COPY package.json yarn.lock ./
+RUN corepack enable && yarn install --frozen-lockfile
 
 COPY . .
-RUN set -x && yarn run prestart:prod
+RUN yarn run prestart:prod
+
+FROM node:24-alpine AS production
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+COPY package.json yarn.lock ./
+RUN corepack enable && yarn install --frozen-lockfile --production=true && yarn cache clean
+
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-CMD [ "node", "dist/main.js" ]
+CMD ["node", "dist/main.js"]

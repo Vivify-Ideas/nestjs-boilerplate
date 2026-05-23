@@ -10,23 +10,23 @@ import { PasswordTransformer } from './password.transformer';
 })
 export class User {
   @PrimaryGeneratedColumn()
-  id: number;
+  id!: number;
 
   @Column({ length: 255 })
-  firstName: string;
+  firstName!: string;
 
   @Column({ length: 255 })
-  lastName: string;
+  lastName!: string;
 
   @Column({ length: 255 })
-  email: string;
+  email!: string;
 
   @Column({
     name: 'password',
     length: 255,
     transformer: new PasswordTransformer(),
   })
-  password: string;
+  password!: string;
 
   toJSON() {
     const { password, ...self } = this;
@@ -35,8 +35,8 @@ export class User {
 }
 
 export class UserFillableFields {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
+  email!: string;
+  firstName!: string;
+  lastName!: string;
+  password!: string;
 }

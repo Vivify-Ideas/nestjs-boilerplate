@@ -10,28 +10,28 @@ export class RegisterPayload {
   })
   @IsEmail()
   @Unique([User])
-  email: string;
+  email!: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  firstName: string;
+  firstName!: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  lastName: string;
+  lastName!: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
   @MinLength(5)
-  password: string;
+  password!: string;
 
   @ApiProperty({ required: true })
   @SameAs('password')
-  passwordConfirmation: string;
+  passwordConfirmation!: string;
 }
